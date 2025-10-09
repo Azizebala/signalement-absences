@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Signaler une absence</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 { color: #2c3e50; }
+    label { display: block; margin: 10px 0 5px; }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover { background: #2980b9; }
+  </style>
+</head>
+<body>
+  <h1>📢 Signaler une absence d’enseignant</h1>
+  <form action="https://formspree.io/f/xyyqzgjv" method="POST">
+    <label for="nom">Nom du délégué :</label>
+    <input type="text" id="nom" name="nom" required>
+
+    <label for="classe">Classe :</label>
+    <input type="text" id="classe" name="classe" required>
+
+    <label for="enseignant">Nom de l’enseignant absent :</label>
+    <input type="text" id="enseignant" name="enseignant" required>
+
+    <label for="date">Date de l’absence :</label>
+    <input type="date" id="date" name="date" required>
+
+    <label for="motif">Motif (facultatif) :</label>
+    <textarea id="motif" name="motif" rows="4"></textarea>
+
+    <button type="submit">Envoyer le signalement</button>
+  </form>
+
+  <p style="margin-top: 20px; font-size: 0.9em; color: #7f8c8d;">
+    ✅ Votre signalement sera envoyé par email à l’administrateur.
+  </p>
+</body>
+</html>
