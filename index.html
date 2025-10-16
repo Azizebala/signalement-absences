@@ -13,11 +13,12 @@
     }
     h1 { color: #2c3e50; }
     label { display: block; margin: 10px 0 5px; }
-    input, textarea, select {
+    input, textarea {
       width: 100%;
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      box-sizing: border-box;
     }
     button {
       background: #3498db;
@@ -27,16 +28,22 @@
       margin-top: 20px;
       cursor: pointer;
       border-radius: 4px;
+      width: 100%;
     }
     button:hover { background: #2980b9; }
+    .info { 
+      margin-top: 15px; 
+      font-size: 0.9em; 
+      color: #27ae60; 
+    }
   </style>
 </head>
 <body>
   <h1>📢 Signaler une absence d’enseignant</h1>
+
   <form action="https://formspree.io/f/mzzjjrjk" method="POST">
-    
-    <label for="identifiant">Identifiant du délégué :</label>
-    <input type="text" id="identifiant" name="identifiant" required>
+    <!-- Champ caché pour l'identifiant -->
+    <input type="hidden" id="identifiant" name="identifiant" value="">
 
     <label for="nom">Nom du délégué :</label>
     <input type="text" id="nom" name="nom" required>
@@ -56,8 +63,27 @@
     <button type="submit">Envoyer le signalement</button>
   </form>
 
+  <p class="info" id="delegue-info"></p>
+
   <p style="margin-top: 20px; font-size: 0.9em; color: #7f8c8d;">
     ✅ Votre signalement sera envoyé par email à l’administrateur.
   </p>
+
+  <script>
+    // Récupère l'identifiant depuis l'URL (ex: ?id=DEL001)
+    const urlParams = new URLSearchParams(window.location.search);
+    const idDelegue = urlParams.get('id');
+
+    if (idDelegue) {
+      // Remplit le champ caché
+      document.getElementById('identifiant').value = idDelegue;
+
+      // Affiche une confirmation discrète
+      document.getElementById('delegue-info').textContent = `Connecté en tant que délégué : ${idDelegue}`;
+    } else {
+      // Optionnel : rediriger vers login si aucun ID
+      // window.location.href = "https://azizebala.github.io/signalement-absences/login.html";
+    }
+  </script>
 </body>
 </html>
