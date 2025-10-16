@@ -5,44 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accès délégué - UMMTO</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* En-tête tout en haut */
+    /* En-tête institutionnel */
     .header {
       font-family: "Times New Roman", Times, serif;
+      color: black;
       text-align: center;
-      padding: 20px 0;
+      padding: 15px 0;
       background: white;
-      width: 100%;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 30px;
     }
     .header h2, .header h3, .header h4 {
       margin: 4px 0;
+      padding: 0;
       color: gray;
       font-weight: normal;
     }
 
-    /* Contenu principal (formulaire) */
-    .main {
-      flex: 1;
+    /* Formulaire */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
+      align-items: start;
+      min-height: 100vh;
+      padding-top: 10px;
     }
     .card {
       background: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 100%;
+      width: 90%;
       max-width: 400px;
     }
     h2.page-title {
@@ -87,7 +84,7 @@
   </style>
 </head>
 <body>
-  <!-- En-tête institutionnel : tout en haut, centré -->
+  <!-- En-tête institutionnel (sans image) -->
   <div class="header">
     <h4>République Algérienne Démocratique et Populaire</h4>
     <h4>Ministère de l'Enseignement Supérieur et de la Recherche Scientifique</h4>
@@ -96,21 +93,19 @@
     <h2>Département des Sciences de Gestion</h2>
   </div>
 
-  <!-- Formulaire centré en dessous -->
-  <div class="main">
-    <div class="card">
-      <h2 class="page-title">Accès délégué</h2>
-      <form id="loginForm">
-        <label for="id">Identifiant du délégué :</label>
-        <input type="text" id="id" name="id" required autocomplete="off">
+  <!-- Formulaire de connexion -->
+  <div class="card">
+    <h2 class="page-title">🔐 Accès délégué</h2>
+    <form id="loginForm">
+      <label for="id">Identifiant du délégué :</label>
+      <input type="text" id="id" name="id" required autocomplete="off">
 
-        <label for="mdp">Mot de passe :</label>
-        <input type="password" id="mdp" name="mdp" required>
+      <label for="mdp">Mot de passe :</label>
+      <input type="password" id="mdp" name="mdp" required>
 
-        <button type="submit">Accéder au signalement</button>
-      </form>
-      <div id="error" class="error"></div>
-    </div>
+      <button type="submit">Accéder au signalement</button>
+    </form>
+    <div id="error" class="error"></div>
   </div>
 
   <script>
