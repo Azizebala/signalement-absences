@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accès délégué</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #34495e;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    .error {
+      color: #e74c3c;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🔐 Accès délégué</h2>
+    <form id="loginForm">
+      <label for="id">Identifiant du délégué :</label>
+      <input type="text" id="id" name="id" required autocomplete="off">
+
+      <label for="mdp">Mot de passe :</label>
+      <input type="password" id="mdp" name="mdp" required>
+
+      <button type="submit">Accéder au signalement</button>
+    </form>
+    <div id="error" class="error"></div>
+  </div>
+
+  <script>
+    // 🔐 Liste des délégués autorisés (à personnaliser)
+    const delegues = {
+      "DEL001": "secret123",
+      "DEL002": "lycee2025",
+      "AZIZE": "mdp456"
+      // Ajoute autant que tu veux
+    };
+
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const id = document.getElementById("id").value.trim();
+      const mdp = document.getElementById("mdp").value;
+
+      const errorDiv = document.getElementById("error");
+      errorDiv.textContent = "";
+
+      if (delegues[id] && delegues[id] === mdp) {
+        // ✅ Accès autorisé → redirection
+        window.location.href = "https://azizebala.github.io/signalement-absences/";
+      } else {
+        // ❌ Accès refusé
+        errorDiv.textContent = "Identifiant ou mot de passe incorrect.";
+      }
+    });
+  </script>
+</body>
+</html>
