@@ -3,43 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accès délégué - UMMTO</title>
+  <title>Accès délégué</title>
   <style>
-    /* En-tête institutionnel */
-    .header {
-      font-family: "Times New Roman", Times, serif;
-      color: black;
-      text-align: center;
-      padding: 15px 0;
-      background: white;
-      border-bottom: 1px solid #ccc;
-      margin-bottom: 30px;
-    }
-    .header h2, .header h3, .header h4 {
-      margin: 4px 0;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* En-tête : uniquement le département */
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      background: white;
+      width: 100%;
+    }
+    .header h2 {
+      margin: 0;
       color: gray;
+      font-family: "Times New Roman", Times, serif;
       font-weight: normal;
     }
 
     /* Formulaire */
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 0;
+    .main {
+      flex: 1;
       display: flex;
       justify-content: center;
-      align-items: start;
-      min-height: 100vh;
-      padding-top: 10px;
+      align-items: center;
+      padding: 20px;
     }
     .card {
       background: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 90%;
+      width: 100%;
       max-width: 400px;
     }
     h2.page-title {
@@ -81,36 +84,49 @@
       margin-top: 15px;
       font-weight: bold;
     }
+
+    /* Pied de page */
+    .footer {
+      text-align: center;
+      padding: 15px;
+      color: gray;
+      font-size: 0.9em;
+      background: white;
+      border-top: 1px solid #eee;
+    }
   </style>
 </head>
 <body>
-  <!-- En-tête institutionnel (sans image) -->
+  <!-- En-tête simplifié -->
   <div class="header">
-    <h4>République Algérienne Démocratique et Populaire</h4>
-    <h4>Ministère de l'Enseignement Supérieur et de la Recherche Scientifique</h4>
-    <h3>Université Mouloud Mammeri de Tizi-Ouzou</h3>
-    <h3>Faculté des Sciences Economiques, Commerciales et des Sciences de Gestion</h3>
     <h2>Département des Sciences de Gestion</h2>
   </div>
 
-  <!-- Formulaire de connexion -->
-  <div class="card">
-    <h2 class="page-title">🔐 Accès délégué</h2>
-    <form id="loginForm">
-      <label for="id">Identifiant du délégué :</label>
-      <input type="text" id="id" name="id" required autocomplete="off">
+  <!-- Formulaire -->
+  <div class="main">
+    <div class="card">
+      <h2 class="page-title">Accès délégué</h2>
+      <form id="loginForm">
+        <label for="id">Identifiant du délégué :</label>
+        <input type="text" id="id" name="id" required autocomplete="off">
 
-      <label for="mdp">Mot de passe :</label>
-      <input type="password" id="mdp" name="mdp" required>
+        <label for="mdp">Mot de passe :</label>
+        <input type="password" id="mdp" name="mdp" required>
 
-      <button type="submit">Accéder au signalement</button>
-    </form>
-    <div id="error" class="error"></div>
+        <button type="submit">Accéder au signalement</button>
+      </form>
+      <div id="error" class="error"></div>
+    </div>
+  </div>
+
+  <!-- Pied de page -->
+  <div class="footer">
+    Tous droits réservés à @MAHTOUT Idir
   </div>
 
   <script>
     const delegues = {
-      "AAA": "AAA",
+      "DEL001": "secret123",
       "DEL002": "lycee2025",
       "AZIZE": "mdp456"
     };
