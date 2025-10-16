@@ -3,8 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accès délégué</title>
+  <title>Accès délégué - UMMTO</title>
   <style>
+    /* En-tête */
+    .header {
+      font-family: "Times New Roman", Times, serif;
+      color: black;
+      text-align: center;
+      padding: 10px 0;
+      background: white;
+      border-bottom: 2px solid #eee;
+      position: relative;
+      margin-bottom: 30px;
+    }
+    .header img {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      height: 60px; /* Ajuste selon ton logo */
+      object-fit: contain;
+    }
+    .header h2, .header h3, .header h4 {
+      margin: 4px 0;
+      padding: 0;
+      color: gray;
+    }
+
+    /* Reste du style (inchangé) */
     body {
       font-family: Arial, sans-serif;
       background: #f0f2f5;
@@ -12,8 +37,9 @@
       padding: 0;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
+      align-items: start;
+      min-height: 100vh;
+      padding-top: 20px;
     }
     .card {
       background: white;
@@ -23,7 +49,7 @@
       width: 90%;
       max-width: 400px;
     }
-    h2 {
+    h2.page-title {
       text-align: center;
       color: #2c3e50;
       margin-bottom: 20px;
@@ -65,8 +91,19 @@
   </style>
 </head>
 <body>
+  <!-- En-tête institutionnel -->
+  <div class="header">
+    <img src="https://i.ibb.co/vx3qGqK/LOGO-UMMTO.png" alt="Logo UMMTO">
+    <h4>République Algérienne Démocratique et Populaire</h4>
+    <h4>Ministère de l'Enseignement Supérieur et de la Recherche Scientifique</h4>
+    <h3>Université Mouloud Mammeri de Tizi-Ouzou</h3>
+    <h3>Faculté des Sciences Economiques, Commerciales et des Sciences de Gestion</h3>
+    <h2>Département des Sciences de Gestion</h2>
+  </div>
+
+  <!-- Formulaire de login -->
   <div class="card">
-    <h2>🔐 Accès délégué</h2>
+    <h2 class="page-title">🔐 Accès délégué</h2>
     <form id="loginForm">
       <label for="id">Identifiant du délégué :</label>
       <input type="text" id="id" name="id" required autocomplete="off">
@@ -80,26 +117,21 @@
   </div>
 
   <script>
-    // 🔐 Liste des délégués autorisés (à personnaliser)
     const delegues = {
       "MAHTOUT": "123",
       "DEL002": "lycee2025",
       "AZIZE": "mdp456"
-      // Ajoute d'autres délégués ici si besoin
     };
 
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const id = document.getElementById("id").value.trim();
       const mdp = document.getElementById("mdp").value;
-
       const errorDiv = document.getElementById("error");
       errorDiv.textContent = "";
 
       if (delegues[id] && delegues[id] === mdp) {
-        // ✅ Redirige vers le formulaire avec l'identifiant dans l'URL
-        const url = "https://azizebala.github.io/signalement-absences/?id=" + encodeURIComponent(id);
-        window.location.href = url;
+        window.location.href = "https://azizebala.github.io/signalement-absences/?id=" + encodeURIComponent(id);
       } else {
         errorDiv.textContent = "Identifiant ou mot de passe incorrect.";
       }
