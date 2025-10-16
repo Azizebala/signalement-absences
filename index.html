@@ -1,88 +1,175 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Signaler une absence</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signalements - Délégué</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
       background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
     }
-    h1 { color: #2c3e50; }
-    label { display: block; margin: 10px 0 5px; }
-    input, textarea {
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .btn {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-cours {
+      background: #3498db;
+      color: white;
+    }
+    .btn-infra {
+      background: #2ecc71;
+      color: white;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .form-section {
+      display: none;
+    }
+    .form-section.active {
+      display: block;
+    }
+    label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: bold;
+      color: #34495e;
+    }
+    input, select, textarea {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
       box-sizing: border-box;
     }
-    button {
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
       background: #3498db;
       color: white;
       border: none;
-      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 16px;
       margin-top: 20px;
       cursor: pointer;
-      border-radius: 4px;
-      width: 100%;
     }
-    button:hover { background: #2980b9; }
-    .info { 
-      margin-top: 15px; 
-      font-size: 0.9em; 
-      color: #27ae60; 
+    button[type="submit"]:hover {
+      background: #2980b9;
+    }
+    .info {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #7f8c8d;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h1>📢 Signaler une absence d’enseignant</h1>
+  <div class="container">
+    <h1>📝 Signalements des délégués</h1>
 
-  <form action="https://formspree.io/f/mzzjjrjk" method="POST">
-    <!-- Champ caché pour l'identifiant -->
-    <input type="hidden" id="identifiant" name="identifiant" value="">
+    <div class="btn-group">
+      <button class="btn btn-cours" onclick="showForm('cours')">Cours raté</button>
+      <button class="btn btn-infra" onclick="showForm('infra')">Problème infrastructure</button>
+    </div>
 
-    <label for="nom">Nom du délégué :</label>
-    <input type="text" id="nom" name="nom" required>
+    <!-- Formulaire : Cours raté -->
+    <form id="form-cours" class="form-section" action="https://formspree.io/f/mzzjjrjk" method="POST">
+      <input type="hidden" name="type_signalement" value="cours_rate">
+      
+      <label for="specialite">Spécialité :</label>
+      <input type="text" id="specialite" name="specialite" required>
 
-    <label for="classe">Classe :</label>
-    <input type="text" id="classe" name="classe" required>
+      <label for="module">Module :</label>
+      <input type="text" id="module" name="module" required>
 
-    <label for="enseignant">Nom de l’enseignant absent :</label>
-    <input type="text" id="enseignant" name="enseignant" required>
+      <label for="lieu_cours">Lieu :</label>
+      <input type="text" id="lieu_cours" name="lieu" required>
 
-    <label for="date">Date de l’absence :</label>
-    <input type="date" id="date" name="date" required>
+      <label for="heure">Heure :</label>
+      <input type="time" id="heure" name="heure" required>
 
-    <label for="motif">Motif (facultatif) :</label>
-    <textarea id="motif" name="motif" rows="4"></textarea>
+      <label for="type_seance">Type de séance :</label>
+      <select id="type_seance" name="type_seance" required>
+        <option value="">-- Choisir --</option>
+        <option value="Cours">Cours</option>
+        <option value="TD">TD</option>
+        <option value="TP">TP</option>
+      </select>
 
-    <button type="submit">Envoyer le signalement</button>
-  </form>
+      <label for="nom_delegue">Nom du délégué :</label>
+      <input type="text" id="nom_delegue" name="nom_delegue" required>
 
-  <p class="info" id="delegue-info"></p>
+      <button type="submit">Envoyer le signalement</button>
+    </form>
 
-  <p style="margin-top: 20px; font-size: 0.9em; color: #7f8c8d;">
-    ✅ Votre signalement sera envoyé par email à l’administrateur.
-  </p>
+    <!-- Formulaire : Infrastructure -->
+    <form id="form-infra" class="form-section" action="https://formspree.io/f/mzzjjrjk" method="POST">
+      <input type="hidden" name="type_signalement" value="infrastructure">
+
+      <label for="lieu_infra">Lieu :</label>
+      <input type="text" id="lieu_infra" name="lieu" required>
+
+      <label for="salle">Salle / Amphi :</label>
+      <input type="text" id="salle" name="salle" required>
+
+      <label>Problèmes (cochez ce qui s’applique) :</label>
+      <label><input type="checkbox" name="problemes[]" value="Salle trop petite"> Salle trop petite</label>
+      <label><input type="checkbox" name="problemes[]" value="Salle trop froide"> Salle trop froide</label>
+      <label><input type="checkbox" name="problemes[]" value="Salle trop chaude"> Salle trop chaude</label>
+      <label><input type="checkbox" name="problemes[]" value="Matériel informatique défectueux"> Matériel informatique défectueux</label>
+      <label><input type="checkbox" name="problemes[]" value="Manque de chaises"> Manque de chaises</label>
+      <label><input type="checkbox" name="problemes[]" value="Problème de tableau"> Problème de tableau</label>
+      <label><input type="checkbox" name="problemes[]" value="Fenêtre cassée"> Fenêtre cassée</label>
+
+      <label for="nom_delegue_infra">Nom du délégué :</label>
+      <input type="text" id="nom_delegue_infra" name="nom_delegue" required>
+
+      <button type="submit">Envoyer le signalement</button>
+    </form>
+
+    <p class="info">
+      ✅ Vos signalements sont envoyés directement à l’administration.
+    </p>
+  </div>
 
   <script>
-    // Récupère l'identifiant depuis l'URL (ex: ?id=DEL001)
-    const urlParams = new URLSearchParams(window.location.search);
-    const idDelegue = urlParams.get('id');
-
-    if (idDelegue) {
-      // Remplit le champ caché
-      document.getElementById('identifiant').value = idDelegue;
-
-      // Affiche une confirmation discrète
-      document.getElementById('delegue-info').textContent = `Connecté en tant que délégué : ${idDelegue}`;
-    } else {
-      // Optionnel : rediriger vers login si aucun ID
-      // window.location.href = "https://azizebala.github.io/signalement-absences/login.html";
+    function showForm(type) {
+      document.getElementById('form-cours').classList.remove('active');
+      document.getElementById('form-infra').classList.remove('active');
+      
+      if (type === 'cours') {
+        document.getElementById('form-cours').classList.add('active');
+      } else if (type === 'infra') {
+        document.getElementById('form-infra').classList.add('active');
+      }
     }
   </script>
 </body>
