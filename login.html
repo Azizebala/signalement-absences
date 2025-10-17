@@ -7,45 +7,24 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      background: #f0f2f5;
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* En-tête : uniquement le département */
-    .header {
-      text-align: center;
-      padding: 20px 0;
-      background: white;
-      width: 100%;
-    }
-    .header h2 {
-      margin: 0;
-      color: gray;
-      font-family: "Times New Roman", Times, serif;
-      font-weight: normal;
-    }
-
-    /* Formulaire */
-    .main {
-      flex: 1;
-      display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
+      align-items: start;
+      min-height: 100vh;
+      padding-top: 20px;
     }
     .card {
       background: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 100%;
+      width: 90%;
       max-width: 400px;
     }
-    h2.page-title {
+    h2 {
       text-align: center;
       color: #2c3e50;
       margin-bottom: 20px;
@@ -54,7 +33,6 @@
       display: block;
       margin-top: 15px;
       font-weight: bold;
-      color: #34495e;
     }
     input {
       width: 100%;
@@ -75,60 +53,52 @@
       margin-top: 20px;
       cursor: pointer;
     }
-    button:hover {
-      background: #2980b9;
-    }
     .error {
       color: #e74c3c;
       text-align: center;
       margin-top: 15px;
       font-weight: bold;
     }
-
-    /* Pied de page */
-    .footer {
-      text-align: center;
-      padding: 15px;
-      color: gray;
-      font-size: 0.9em;
-      background: white;
-      border-top: 1px solid #eee;
-    }
   </style>
 </head>
 <body>
-  <!-- En-tête simplifié -->
-  <div class="header">
-    <h2>Département des Sciences de Gestion</h2>
-  </div>
+  <div class="card">
+    <h2>🔐 Accès délégué</h2>
+    <form id="loginForm">
+      <label for="id">Identifiant :</label>
+      <input type="text" id="id" name="id" required autocomplete="off">
 
-  <!-- Formulaire -->
-  <div class="main">
-    <div class="card">
-      <h2 class="page-title">Accès délégué</h2>
-      <form id="loginForm">
-        <label for="id">Identifiant du délégué :</label>
-        <input type="text" id="id" name="id" required autocomplete="off">
+      <label for="mdp">Mot de passe :</label>
+      <input type="password" id="mdp" name="mdp" required>
 
-        <label for="mdp">Mot de passe :</label>
-        <input type="password" id="mdp" name="mdp" required>
-
-        <button type="submit">Accéder au signalement</button>
-      </form>
-      <div id="error" class="error"></div>
-    </div>
-  </div>
-
-  <!-- Pied de page -->
-  <div class="footer">
-    Tous droits réservés à @MAHTOUT Idir
+      <button type="submit">Accéder au signalement</button>
+    </form>
+    <div id="error" class="error"></div>
   </div>
 
   <script>
+    // 🔐 Fonction de hachage simple (Base64)
+    function hash(mdp) {
+      return btoa(mdp); // Encode le mot de passe en Base64
+    }
+
+    // 🔑 Liste des délégués : identifiant + hash du mot de passe + formulaire
     const delegues = {
-      "AAA": "AAA",
-      "DEL002": "lycee2025",
-      "AZIZE": "mdp456"
+      // Département Gestion
+      "ALI_GEST": { hash: "RzEyMw==", form: "gest123" },     // mot de passe : G123
+      "SARA_GEST": { hash: "RzQ1Ng==", form: "gest123" },    // mot de passe : G456
+
+      // Département Économie
+      "KARIM_ECO": { hash: "RTIzNA==", form: "eco456" },     // mot de passe : E234
+      "LEILA_ECO": { hash: "RTU2Nw==", form: "eco456" },     // mot de passe : E567
+
+      // Département Commerce
+      "YASSINE_COM": { hash: "Qzg5MA==", form: "com789" },   // mot de passe : C890
+      "NADIA_COM": { hash: "QzExMg==", form: "com789" },     // mot de passe : C112
+
+      // Département Finance
+      "OMAR_FIN": { hash: "RjM0NQ==", form: "fin000" },      // mot de passe : F345
+      "AMAL_FIN": { hash: "RjY3OA==", form: "fin000" }       // mot de passe : F678
     };
 
     document.getElementById("loginForm").addEventListener("submit", function(e) {
@@ -138,8 +108,10 @@
       const errorDiv = document.getElementById("error");
       errorDiv.textContent = "";
 
-      if (delegues[id] && delegues[id] === mdp) {
-        window.location.href = "https://azizebala.github.io/signalement-absences/?id=" + encodeURIComponent(id);
+      const user = delegues[id];
+      if (user && user.hash === hash(mdp)) {
+        // ✅ Redirige vers le bon formulaire
+        window.location.href = "https://azizebala.github.io/signalement-absences/?form=" + user.form;
       } else {
         errorDiv.textContent = "Identifiant ou mot de passe incorrect.";
       }
