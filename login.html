@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accès délégué</title>
+  <title>Connexion - Absences FSEGS</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,9 +12,8 @@
       padding: 0;
       display: flex;
       justify-content: center;
-      align-items: start;
+      align-items: center;
       min-height: 100vh;
-      padding-top: 20px;
     }
     .card {
       background: white;
@@ -59,62 +58,68 @@
       margin-top: 15px;
       font-weight: bold;
     }
+    .success {
+      color: #27ae60;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>🔐 Accès délégué</h2>
+    <h2>🔐 Connexion</h2>
     <form id="loginForm">
-      <label for="id">Identifiant :</label>
-      <input type="text" id="id" name="id" required autocomplete="off">
+      <label for="email">Email :</label>
+      <input type="email" id="email" name="email" required>
 
-      <label for="mdp">Mot de passe :</label>
-      <input type="password" id="mdp" name="mdp" required>
+      <label for="password">Mot de passe :</label>
+      <input type="password" id="password" name="password" required>
 
-      <button type="submit">Accéder au signalement</button>
+      <button type="submit">Se connecter</button>
     </form>
-    <div id="error" class="error"></div>
+    <div id="message"></div>
   </div>
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
   <script>
-    // 🔐 Fonction de hachage simple (Base64)
-    function hash(mdp) {
-      return btoa(mdp); // Encode le mot de passe en Base64
-    }
-
-    // 🔑 Liste des délégués : identifiant + hash du mot de passe + formulaire
-    const delegues = {
-      // Département Gestion
-      "ALI_GEST": { hash: "RzEyMw==", form: "gest123" },     // mot de passe : G123
-      "SARA_GEST": { hash: "RzQ1Ng==", form: "gest123" },    // mot de passe : G456
-
-      // Département Économie
-      "KARIM_ECO": { hash: "RTIzNA==", form: "eco456" },     // mot de passe : E234
-      "LEILA_ECO": { hash: "RTU2Nw==", form: "eco456" },     // mot de passe : E567
-
-      // Département Commerce
-      "YASSINE_COM": { hash: "Qzg5MA==", form: "com789" },   // mot de passe : C890
-      "NADIA_COM": { hash: "QzExMg==", form: "com789" },     // mot de passe : C112
-
-      // Département Finance
-      "OMAR_FIN": { hash: "RjM0NQ==", form: "fin000" },      // mot de passe : F345
-      "AMAL_FIN": { hash: "RjY3OA==", form: "fin000" }       // mot de passe : F678
+    // 🔧 Configuration Firebase — remplace par la tienne
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGSmyA8m616VBsZKllk8b5vFYUL0R4OBM",
+      authDomain: "absences-fsegs.firebaseapp.com",
+      projectId: "absences-fsegs",
+      storageBucket: "absences-fsegs.appspot.com",
+      messagingSenderId: "685938683615",
+      appId: "1:685938683615:web:39119f3acb063e8b68436a"
     };
 
+    // Initialisation
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Formulaire de login
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const id = document.getElementById("id").value.trim();
-      const mdp = document.getElementById("mdp").value;
-      const errorDiv = document.getElementById("error");
-      errorDiv.textContent = "";
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const msgDiv = document.getElementById("message");
 
-      const user = delegues[id];
-      if (user && user.hash === hash(mdp)) {
-        // ✅ Redirige vers le bon formulaire
-        window.location.href = "https://azizebala.github.io/signalement-absences/?form=" + user.form;
-      } else {
-        errorDiv.textContent = "Identifiant ou mot de passe incorrect.";
-      }
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          msgDiv.className = "success";
+          msgDiv.textContent = "Connexion réussie ! Redirection...";
+          // Redirige vers le tableau de bord ou le formulaire
+          setTimeout(() => {
+            window.location.href = "signalement.html?uid=" + userCredential.user.uid;
+          }, 1500);
+        })
+        .catch((error) => {
+          msgDiv.className = "error";
+          msgDiv.textContent = "Erreur : " + error.message;
+        });
     });
   </script>
 </body>
